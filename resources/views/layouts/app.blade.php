@@ -27,6 +27,25 @@
                 </header>
             @endif
 
+            @if (session('status'))
+                @php
+                    $alertType = session('alert-type', 'info'); // Tipo di alert, default è 'info'
+                    $alertClasses = [
+                        'success' => 'bg-green-100 border-green-400 text-green-700',
+                        'error' => 'bg-red-100 border-red-400 text-red-700',
+                        'warning' => 'bg-yellow-100 border-yellow-400 text-yellow-700',
+                        'info' => 'bg-blue-100 border-blue-400 text-blue-700',
+                    ];
+                    $classes = $alertClasses[$alertType] ?? $alertClasses['info'];
+                @endphp
+
+                <div class="{{ $classes }} px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">{{ ucfirst($alertType) }}!</strong>
+                    <span class="block sm:inline">{{ session('status') }}</span>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
+                </div>
+            @endif
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}
