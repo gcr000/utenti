@@ -6,6 +6,7 @@
             'title' => 'Personal information',
             'description' => 'Update the profile information of your account and the email address',
             'name' => 'Name',
+            'surname' => 'Surname',
             'email' => 'Email',
             'save_button' => 'Save changes',
         ],
@@ -38,5 +39,6 @@
         ],
         'menu' => [
             'profilo' => 'Profile',
+            'logout' => 'Log Out',
         ]
     ];

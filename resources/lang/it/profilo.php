@@ -6,6 +6,7 @@
             'title' => 'Informazioni personali',
             'description' => 'Aggiorna le informazioni del profilo del tuo account e l\'indirizzo email',
             'name' => 'Nome',
+            'surname' => 'Cognome',
             'email' => 'Email',
             'save_button' => 'Salva modifiche',
         ],
@@ -38,6 +39,7 @@
         ],
         'menu' => [
             'profilo' => 'Profilo',
+            'logout' => 'Esci',
         ]
     ];
 

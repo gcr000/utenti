@@ -23,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('google2fa_enabled');
+            $table->dropColumn('google2fa_secret');
         });
     }
 };
