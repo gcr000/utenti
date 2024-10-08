@@ -33,5 +33,11 @@
                 'cancel_button' => 'Annulla',
             ]
         ],
+        'controller' => [
+            'update_lang' => 'Language updated successfully',
+        ],
+        'menu' => [
+            'profilo' => 'Profilo',
+        ]
     ];
 

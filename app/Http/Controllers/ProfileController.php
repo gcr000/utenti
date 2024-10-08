@@ -126,7 +126,7 @@ class ProfileController extends Controller
         $user->save();
 
         return Redirect::back()->with([
-            'status' => 'locale-changed',
+            'status' => __('profilo.controller.update_lang'),
             'alert-type' => 'success',
         ]);
     }

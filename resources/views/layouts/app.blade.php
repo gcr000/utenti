@@ -39,7 +39,7 @@
                     $classes = $alertClasses[$alertType] ?? $alertClasses['info'];
                 @endphp
 
-                <div class="{{ $classes }} px-4 py-3 rounded relative custom_alert" role="alert">
+                <div class="{{ $classes }} px-12 py-3 rounded relative custom_alert" role="alert">
                     <strong class="font-bold">{{ ucfirst($alertType) }}!</strong>
                     <span class="block sm:inline">{{ session('status') }}</span>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
