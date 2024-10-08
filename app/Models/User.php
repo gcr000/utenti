@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'google2fa_secret',
         'google2fa_enabled',
+        'locale'
     ];
 
     /**

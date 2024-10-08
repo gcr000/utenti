@@ -1,11 +1,11 @@
 <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Google 2FA') }}
+            {{ __('profilo.2fa.title') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Aggiungi un livello di sicurezza aggiuntivo al tuo account utilizzando Google Authenticator.') }}
+            {{ __('profilo.2fa.description') }}
         </p>
 
         @if($qrCode)
@@ -19,9 +19,9 @@
         @csrf
 
         @if(!Auth::user()->google2fa_secret)
-            <x-primary-button>{{ __('Abilita') }}</x-primary-button>
+            <x-primary-button>{{ __('profilo.2fa.enable_button') }}</x-primary-button>
         @else
-            <x-danger-button>{{ __('Disabilita') }}</x-danger-button>
+            <x-danger-button>{{ __('profilo.2fa.disable_button') }}</x-danger-button>
         @endif
     </form>
 </section>

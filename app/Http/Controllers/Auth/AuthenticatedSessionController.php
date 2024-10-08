@@ -28,7 +28,9 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+
         $user = Auth::user();
+        app()->setLocale($user->locale); // Imposta il locale dopo l'accesso
 
         // Verifica se l'utente ha il 2FA abilitato
         if ($user && $user->google2fa_enabled) {

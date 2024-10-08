@@ -83,7 +83,7 @@ class ProfileController extends Controller
     /**
      * Enable or disable two-factor authentication for the user.
      */
-    public function manageTwoFactorAuthentication(Request $request): RedirectResponse
+    public function manageTwoFactorAuthentication(Request $request)
     {
         $user = Auth::user();
 
@@ -113,17 +113,21 @@ class ProfileController extends Controller
         // Generate the QR code as an image
         $qrCode = QrCode::size(200)->generate($qrCodeUrl);
 
-
-
-        /*return Redirect::back()->with('status', 'two-factor-enabled', [
-            'qrCode' => $qrCode,
-            'secret' => $user->google2fa_secret,
-        ]);*/
-
         return Redirect::back()->with([
             'status' => 'two-factor-enabled',
             'alert-type' => 'success',
             'qrCode' => $qrCode
+        ]);
+    }
+
+    public function setLocale($locale){
+        $user = Auth::user();
+        $user->locale = $locale;
+        $user->save();
+
+        return Redirect::back()->with([
+            'status' => 'locale-changed',
+            'alert-type' => 'success',
         ]);
     }
 }

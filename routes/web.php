@@ -19,6 +19,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/user/two-factor-authentication', [ProfileController::class, 'manageTwoFactorAuthentication'])
         ->name('two-factor.enable');
+
+    Route::get('set_locale/{locale}', [ProfileController::class, 'setLocale'])->name('set_locale');
 });
 
 require __DIR__.'/auth.php';
