@@ -94,7 +94,7 @@ class ProfileController extends Controller
 
             return Redirect::back()->with([
                 'status' => 'two-factor-disabled',
-                'alert-type' => 'error',
+                'alert-type' => 'success',
             ]);
         }
 

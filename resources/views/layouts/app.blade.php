@@ -39,7 +39,7 @@
                     $classes = $alertClasses[$alertType] ?? $alertClasses['info'];
                 @endphp
 
-                <div class="{{ $classes }} px-4 py-3 rounded relative" role="alert">
+                <div class="{{ $classes }} px-4 py-3 rounded relative custom_alert" role="alert">
                     <strong class="font-bold">{{ ucfirst($alertType) }}!</strong>
                     <span class="block sm:inline">{{ session('status') }}</span>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
@@ -51,5 +51,14 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+        <script>
+            // chiusura automatica degli alert dopo 5 secondi
+            document.addEventListener('DOMContentLoaded', function() {
+                $('.custom_alert').delay(3000).fadeOut(500);
+            });
+        </script>
     </body>
 </html>
