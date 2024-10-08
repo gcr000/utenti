@@ -28,7 +28,9 @@ return new class extends Migration
             'name' => 'Giancarlo',
             'surname' => 'Uzzo',
             'email' => 'giancarlo.uzzo@rstore.it',
-            'password' => bcrypt('Test1234!')
+            'password' => bcrypt('Test1234!'),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 

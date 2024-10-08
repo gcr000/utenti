@@ -46,6 +46,13 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        // assign the user the role of user
+        $role = \Spatie\Permission\Models\Role::query()->where('name', 'user')->first();
+        $user->assignRole($role);
+        $user->role_id = $role->id;
+        $user->role_name = $role->name;
+        $user->save();
+
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
