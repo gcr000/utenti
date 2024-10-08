@@ -12,6 +12,7 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
@@ -22,6 +23,12 @@
                             required autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
+            <x-input-label for="email" :value="__('Google 2FA Code')" />
+            <x-text-input id="2fa_code" class="block mt-1 w-full" type="text" name="2fa_code" :value="old('2fa_code')" autofocus autocomplete="2fa_code" />
+            <x-input-error :messages="$errors->get('2fa_code')" class="mt-2" />
         </div>
 
         <!-- Remember Me -->

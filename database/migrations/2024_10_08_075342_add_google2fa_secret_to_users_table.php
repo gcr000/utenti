@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->boolean('google2fa_enabled')->default(false)->after('password');
             $table->string('google2fa_secret')->nullable()->after('password');
         });
     }

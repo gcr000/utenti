@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use PragmaRX\Google2FA\Google2FA;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 class ProfileController extends Controller
 {
@@ -16,8 +20,23 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+
+        $user = Auth::user();
+
+        if($user->google2fa_enabled){
+            $google2fa = new Google2FA();
+            $qrCodeUrl = $google2fa->getQRCodeUrl(
+                config('app.name'),
+                $user->email,
+                $user->google2fa_secret
+            );
+            $qrCode = QrCode::size(200)->generate($qrCodeUrl);
+        } else {
+            $qrCode = null;
+        }
         return view('profile.edit', [
             'user' => $request->user(),
+            'qrCode' => $qrCode
         ]);
     }
 
@@ -56,5 +75,43 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Enable or disable two-factor authentication for the user.
+     */
+    public function manageTwoFactorAuthentication(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        if ($user->google2fa_enabled) {
+            $user->google2fa_secret = null;
+            $user->google2fa_enabled = false;
+            $user->save();
+
+            return Redirect::back()->with('status', 'two-factor-disabled');
+        }
+
+        $google2fa = new Google2FA();
+        $user->google2fa_secret = $google2fa->generateSecretKey();
+        $user->google2fa_enabled = true;
+        $user->save();
+
+        // Generate a QR code for the user to scan with their 2FA app
+        $qrCodeUrl = $google2fa->getQRCodeUrl(
+            config('app.name'),
+            $user->email,
+            $user->google2fa_secret
+        );
+
+        // Generate the QR code as an image
+        $qrCode = QrCode::size(200)->generate($qrCodeUrl);
+
+
+
+        return Redirect::back()->with('status', 'two-factor-enabled', [
+            'qrCode' => $qrCode,
+            'secret' => $user->google2fa_secret,
+        ]);
     }
 }
