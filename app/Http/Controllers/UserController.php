@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -13,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         return view('users.index', [
-            'users' => User::all(),
+            'users' => User::query()->orderBy('surname')->get(),
         ]);
     }
 
@@ -22,7 +26,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create', [
+            'roles' => Role::all(),
+        ]);
     }
 
     /**
@@ -30,7 +36,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role_id' => ['required', 'exists:'.Role::class.',id'],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        event(new Registered($user));
+
+        // assign the user the role of user
+        $role = Role::query()->where('id', $request->role_id)->first();
+        $user->assignRole($role);
+        $user->role_id = $role->id;
+        $user->role_name = $role->name;
+        $user->save();
+
+        return redirect()->route('users.index');
     }
 
     /**
