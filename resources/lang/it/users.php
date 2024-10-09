@@ -22,4 +22,14 @@
             'role' => 'Ruolo',
             'submit' => 'Salva utente',
         ],
+        'edit' => [
+            'title' => 'Modifica utente',
+            'name' => 'Nome',
+            'surname' => 'Cognome',
+            'email' => 'Email',
+            'password' => 'Password',
+            'password_confirmation' => 'Conferma password',
+            'role' => 'Ruolo',
+            'submit' => 'Modifica utente',
+        ],
     ];
