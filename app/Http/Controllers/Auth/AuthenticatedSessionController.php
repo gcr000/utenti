@@ -24,7 +24,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    /*public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
@@ -62,7 +62,30 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::HOME);
+    }*/
+
+    public function store(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
+        $user = Auth::user();
+        app()->setLocale($user->locale);
+
+        // Verifica se l'utente ha il 2FA abilitato
+        if ($user && $user->google2fa_enabled) {
+            // Memorizza l'utente autenticato nella sessione per la verifica del 2FA
+            session(['2fa:user:id' => $user->id]);
+
+            // Effettua il logout per prevenire accessi senza 2FA
+            Auth::guard('web')->logout();
+
+            // Redireziona alla schermata del codice 2FA
+            return redirect()->route('2fa.verify');
+        }
+
+        $request->session()->regenerate();
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
+
 
     /**
      * Destroy an authenticated session.

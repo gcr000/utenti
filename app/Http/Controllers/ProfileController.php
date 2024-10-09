@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -129,5 +131,43 @@ class ProfileController extends Controller
             'status' => __('profilo.controller.update_lang'),
             'alert-type' => 'success',
         ]);
+    }
+
+    public function showVerifyForm(): View
+    {
+        return view('auth.two-factor-verify');
+    }
+
+    public function verify(Request $request): RedirectResponse
+    {
+        $request->validate([
+            '2fa_code' => 'required|numeric',
+        ]);
+
+        // Recupera l'utente dalla sessione
+        $userId = session('2fa:user:id');
+        if (!$userId) {
+            return redirect()->route('login')->withErrors(['2fa_code' => 'Sessione 2FA non valida.']);
+        }
+
+        $user = User::find($userId);
+
+        if (!$user)
+            return redirect()->route('login')->withErrors(['2fa_code' => 'Utente non trovato.']);
+
+
+        // Verifica il codice 2FA
+        $google2fa = new Google2FA();
+        $valid = $google2fa->verifyKey($user->google2fa_secret, $request->input('2fa_code'));
+
+        if (!$valid) {
+            return back()->withErrors(['2fa_code' => 'Codice 2FA non valido.']);
+        }
+
+        // Se il codice 2FA è valido, rigenera la sessione e accedi
+        Auth::login($user);
+        session()->forget('2fa:user:id');
+
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 }
