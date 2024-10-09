@@ -55,6 +55,8 @@ class UserController extends Controller
 
         // assign the user the role of user
         $role = Role::query()->where('id', $request->role_id)->first();
+
+        // assign the user the role of user
         $user->assignRole($role);
         $user->role_id = $role->id;
         $user->role_name = $role->name;
@@ -103,6 +105,10 @@ class UserController extends Controller
 
         // assign the user the role of user
         $role = Role::query()->where('id', $request->role_id)->first();
+
+        // remove all roles from the user
+        $user->roles()->detach();
+
         $user->assignRole($role);
         $user->role_id = $role->id;
         $user->role_name = $role->name;
