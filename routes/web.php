@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
 
     // UTENTI
     Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::post('users_search', [\App\Http\Controllers\UserController::class, 'search'])->name('users.search');
 });
 
 require __DIR__.'/auth.php';

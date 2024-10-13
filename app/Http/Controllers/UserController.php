@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         return view('users.index', [
-            'users' => User::query()->orderBy('surname')->orderBy('name')->get(),
+            'users' => User::query()->orderBy('surname')->orderBy('name')->paginate(10),
         ]);
     }
 
@@ -123,5 +123,20 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function search(Request $request){
+        $request->validate([
+            'search' => ['required', 'string', 'max:255'],
+        ]);
+
+        return view('users.result', [
+            'users' => User::query()
+                ->where('surname', 'like', '%'.$request->search.'%')
+                ->orWhere('email', 'like', '%'.$request->search.'%')
+                ->orderBy('surname')
+                ->orderBy('name')
+                ->get(),
+        ]);
     }
 }
