@@ -6,6 +6,9 @@
         'welcome_msg' => 'Benvenuto nella sezione utenti',
         'search_input_button' => 'Cerca',
         'search_input_label' => 'Cerca utente per cognome o email',
+        'search_input_alert_charachters' => 'Inserisci almeno 4 caratteri',
+        'search_input_alert_no_results' => 'Nessun utente trovato',
+        'search_input_alert_error_title' => 'Errore',
         'table' => [
             'name' => 'Nome',
             'surname' => 'Cognome',

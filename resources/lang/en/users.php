@@ -6,7 +6,10 @@
         'welcome_msg' => 'Welcome to the users section',
         'search_input_label' => 'Search user for surname or email',
         'search_input_button' => 'Search',
-        'table' => [
+        'search_input_alert_charachters' => 'Enter at least 4 characters',
+        'search_input_alert_no_results' => 'No users found',
+        'search_input_alert_error_title' => 'Error',
+            'table' => [
             'name' => 'Name',
             'surname' => 'Surname',
             'email' => 'Email',

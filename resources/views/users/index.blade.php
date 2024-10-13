@@ -115,9 +115,14 @@
             button.disabled = true;
             const searchValue = document.querySelector('input[type="text"]').value;
 
-            if(searchValue.length < 4) {
-                alert('Inserisci almeno 4 caratteri');
-                button.innerHTML = 'Cerca';
+            if(searchValue.length < 4 || searchValue.trim().length === 0) {
+                Swal.fire({
+                    title: '{{ __('users.search_input_alert_error_title') }}',
+                    text: '{{ __('users.search_input_alert_charachters') }}',
+                    icon: "error",
+                    showConfirmButton: false,
+                });
+                button.innerHTML = '{{ __('users.search_input_button') }}';
                 button.disabled = false;
                 inputElement.focus();
                 inputElement.value = '';
@@ -135,12 +140,17 @@
 
             result = await result.text();
 
-            button.innerHTML = 'Cerca';
+            button.innerHTML = '{{ __('users.search_input_button') }}';
             button.disabled = false;
             inputElement.value = '';
 
-            if(result == '0') {
-                alert('Nessun utente trovato');
+            if(result.length === 0) {
+                Swal.fire({
+                    title: '{{ __('users.search_input_alert_error_title') }}',
+                    text: '{{ __('users.search_input_alert_no_results') }}',
+                    icon: "error",
+                    showConfirmButton: false,
+                });
                 return;
             }
 
