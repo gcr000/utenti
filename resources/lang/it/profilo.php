@@ -23,6 +23,8 @@
             'description' => 'Aggiungi un livello di sicurezza aggiuntivo al tuo account utilizzando l\'autenticazione a due fattori di Google Authenticator',
             'enable_button' => 'Abilita 2FA',
             'disable_button' => 'Disabilita 2FA',
+            'enabled_message' => 'L\'autenticazione a due fattori è stata abilitata con successo.',
+            'disabled_message' => 'L\'autenticazione a due fattori è stata disabilitata con successo.',
         ],
         'delete_account' => [
             'title' => 'Elimina account',

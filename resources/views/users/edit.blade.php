@@ -5,54 +5,35 @@
         </h2>
     </x-slot>
 
-    <div class="py-4">
-        <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('users.edit.general_info')
+                </div>
+            </div>
 
-                    <form action="{{ route('users.update', $user) }}" method="POST">
-                        @csrf
-                        @method('PATCH')
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('users.edit.update_password')
+                </div>
+            </div>
 
-                        <!-- Name -->
-                        <div>
-                            <x-input-label for="name" :value="__('users.edit.name')" />
-                            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" value="{{ $user->name }}" />
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                        </div>
+            @if($user->google2fa_enabled)
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="max-w-8xl">
+                    @include('users.edit.twofactor_authentication_reset')
+                </div>
+            </div>
+            @endif
 
-                        <div class="mt-4">
-                            <x-input-label for="surname" :value="__('users.edit.surname')" />
-                            <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('surname')" required autocomplete="surname" value="{{ $user->surname }}" />
-                            <x-input-error :messages="$errors->get('surname')" class="mt-2" />
-                        </div>
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="max-w-8xl">
 
-                        <!-- Email Address -->
-                        <div class="mt-4">
-                            <x-input-label for="email" :value="__('users.edit.email')" />
-                            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" value="{{ $user->email }}" />
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                        </div>
-
-                        <!-- Role -->
-                        <div class="mt-4">
-                            <x-input-label for="role_id" :value="__('users.edit.role')" />
-                            <x-styled-select name="role_id">
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->id }}" @if($role->id == $user->role_id) selected @endif>{{ $role->name }}</option>
-                                @endforeach
-                            </x-styled-select>
-                            <x-input-error :messages="$errors->get('role_id')" class="mt-2" />
-                        </div>
-
-                        <div class="flex items-center justify-end mt-4">
-                            <x-primary-button class="ms-4">
-                                {{ __('users.edit.submit') }}
-                            </x-primary-button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+
 </x-app-layout>

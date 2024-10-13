@@ -6,8 +6,10 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Spatie\Permission\Models\Role;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -138,5 +140,44 @@ class UserController extends Controller
                 ->orderBy('name')
                 ->get(),
         ]);
+    }
+
+    public function password_update(Request $request, string $id)
+    {
+        try {
+            $request->validate([
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            ]);
+        } catch (ValidationException $e) {
+            // Logga gli errori di validazione nel file di log
+            Log::error('Errore di validazione della password per l\'utente con ID ' . $id, [
+                'errors' => $e->errors(),
+            ]);
+
+            // Puoi decidere di ridirigere indietro con gli errori
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
+
+        $user = User::query()->findOrFail($id);
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+
+        return redirect()->route('users.index');
+    }
+
+    public function two_factor_disabled($id)
+    {
+        $user = User::query()->findOrFail($id);
+
+        $user->google2fa_enabled = false;
+        $user->google2fa_secret = null;
+        $user->save();
+
+        return redirect()->back()->with([
+            'status' => __('profilo.2fa.disabled_message'),
+            'alert-type' => 'success',
+        ]);
+
     }
 }

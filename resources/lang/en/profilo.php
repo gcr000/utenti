@@ -23,6 +23,8 @@
             'description' => 'Add an additional security layer to your account using Google Authenticator two-factor authentication',
             'enable_button' => 'Enable 2FA',
             'disable_button' => 'Disable 2FA',
+            'enabled_message' => 'Two-factor authentication has been successfully enabled.',
+            'disabled_message' => 'Two-factor authentication has been successfully disabled.',
         ],
         'delete_account' => [
             'title' => 'Delete account',

@@ -95,7 +95,7 @@ class ProfileController extends Controller
             $user->save();
 
             return Redirect::back()->with([
-                'status' => 'two-factor-disabled',
+                'status' => __('profilo.2fa.disabled_message'),
                 'alert-type' => 'success',
             ]);
         }
@@ -116,7 +116,7 @@ class ProfileController extends Controller
         $qrCode = QrCode::size(200)->generate($qrCodeUrl);
 
         return Redirect::back()->with([
-            'status' => 'two-factor-enabled',
+            'status' => __('profilo.2fa.enabled_message'),
             'alert-type' => 'success',
             'qrCode' => $qrCode
         ]);
