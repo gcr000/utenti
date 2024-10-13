@@ -16,6 +16,7 @@
                             {{ __('users.welcome_msg') }}
                         </div>
                         <div class="mt-4 sm:mt-0 text-right flex">
+
                             {{--<input placeholder="{{ __('users.search_input') }}" type="text" class="w-64 me-4 inline-flex items-center py-2 dark:bg-gray-200 border rounded-md font-semibold text-xs dark:text-gray-800 uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" />--}}
 
                             <div class="me-4 relative flex h-10 w-[500px] min-w-[200px] max-w-[24rem]">
@@ -31,19 +32,19 @@
                                     type="text"
                                     {{--onblur="clearInput(this)"--}}
                                     class="
-                                    peer h-full w-full
-                                    rounded-[7px] border border-blue-gray-200
-                                    bg-transparent px-3 py-2.5 pr-20 font-sans
-                                    text-sm font-normal text-blue-gray-700
-                                    outline outline-0
-                                    transition-all placeholder-shown:border
-                                    placeholder-shown:border-blue-gray-200
-                                    placeholder-shown:border-t-blue-gray-200
-                                    focus:border-2 focus:border-gray-800 focus:border-t-transparent
-                                    focus:outline-none disabled:border-0
-                                    focus:ring-0
-                                    focus:ring-offset-0
-                                    disabled:bg-blue-gray-50
+                                        peer h-full w-full
+                                        rounded-[7px] border border-blue-gray-200
+                                        bg-transparent px-3 py-2.5 pr-20 font-sans
+                                        text-sm font-normal text-blue-gray-700
+                                        outline outline-0
+                                        transition-all placeholder-shown:border
+                                        placeholder-shown:border-blue-gray-200
+                                        placeholder-shown:border-t-blue-gray-200
+                                        focus:border-2 focus:border-gray-800 focus:border-t-transparent
+                                        focus:outline-none disabled:border-0
+                                        focus:ring-0
+                                        focus:ring-offset-0
+                                        disabled:bg-blue-gray-50
                                     "
                                     placeholder=" "
                                     required
@@ -56,6 +57,63 @@
                             <x-primary-a href="{{ route('users.create') }}">
                                 + {{ __('users.table.add_button') }}
                             </x-primary-a>
+
+                            <div x-data="{ open: false }" class="relative">
+                                <!-- Button to open the drawer -->
+                                <button @click="open = true" style="height: 40px" class="ms-2 inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                    + {{ __('attributes.nuovo_attributo_add_button') }}
+                                </button>
+
+                                <!-- Drawer -->
+                                <div
+                                    x-show="open"
+                                    @click.away="open = false"
+                                    x-transition:enter="transition ease-out duration-300"
+                                    x-transition:enter-start="transform translate-x-full"
+                                    x-transition:enter-end="transform translate-x-0"
+                                    x-transition:leave="transition ease-in duration-300"
+                                    x-transition:leave-start="transform translate-x-0"
+                                    x-transition:leave-end="transform translate-x-full"
+                                    class="fixed inset-0 flex justify-end z-50"
+                                >
+                                    <div class="bg-white w-80 h-full shadow-xl p-6">
+                                        <div class="flex justify-between items-center">
+                                            <h2 class="text-xl font-bold">{{__('attributes.nuovo_attributo_add_button')}}</h2>
+                                            <button @click="open = false" class="text-gray-500 hover:text-gray-700">
+                                                &times;
+                                            </button>
+                                        </div>
+
+                                        <!-- Form inside the drawer -->
+                                        <form class="mt-4 space-y-4" action="{{ route('attributes.store') }}" method="POST">
+                                            @csrf
+                                            <div>
+                                                <label for="name_italiano" class="block text-sm font-medium text-gray-700">{{__('attributes.nuovo_attributo_name')}}*</label>
+                                                <input required type="text" id="name_italiano" name="name_italiano" class="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            </div>
+                                            <div>
+                                                <label for="name_inglese" class="block text-sm font-medium text-gray-700">{{__('attributes.nuovo_attributo_name_inglese')}}*</label>
+                                                <input required type="text" id="name_inglese" name="name_inglese" class="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            </div>
+                                            <div>
+                                                <label for="type" class="block text-sm font-medium text-gray-700">{{__('attributes.nuovo_attributo_type')}}*</label>
+                                                <select id="type" name="type" class="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                                    <option value="text">Text</option>
+                                                    <option value="number">Number</option>
+                                                    <option value="date">Date</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label for="message" class="block text-sm font-medium text-gray-700">{{__('attributes.nuovo_attributo_description')}}</label>
+                                                <textarea style="resize: none" name="description" id="message" class="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                            </div>
+                                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                                {{__('attributes.nuovo_attributo_save_button')}}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

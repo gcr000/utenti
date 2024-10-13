@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', \App\Http\Controllers\UserController::class);
     Route::post('users_search', [\App\Http\Controllers\UserController::class, 'search'])->name('users.search');
     Route::get('users/two_factor_disabled/{id}', [\App\Http\Controllers\UserController::class, 'two_factor_disabled'])->name('users.two_factor_disabled');
+
+    // ATTRIBUTI
+    Route::resource('attributes', \App\Http\Controllers\AttributeController::class);
 });
 
 require __DIR__.'/auth.php';
