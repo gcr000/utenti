@@ -6,7 +6,8 @@
   'nuovo_attributo_type' => 'Tipo di dato',
   'nuovo_attributo_is_required' => 'Richiesto',
   'nuovo_attributo_save_button' => 'Salva',
-  'numero-di-telefono' => 'numero di telefono',
-  'eta' => 'età',
+  'numero-di-telefono' => 'Numero di telefono',
+  'eta' => 'Età',
   'data-di-assunzione' => 'Data di assunzione',
+  'canzone' => 'Canzone',
 );

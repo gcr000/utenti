@@ -47,4 +47,7 @@
             'additional_info_title' => 'Informazioni Aggiuntive',
             'additional_info_subtitle' => 'Dati aggiuntivi del profilo utente',
         ],
+        '2fa' => [
+            'disable_message' => 'Disabilita l\'autenticazione a due fattori per questo utente',
+        ]
     ];

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use App\Models\User;
+use App\Models\Value;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -181,5 +183,31 @@ class UserController extends Controller
             'alert-type' => 'success',
         ]);
 
+    }
+
+    public function additional_update(Request $request, string $id){
+        foreach ($request->all() as $key => $valore){
+            if($key === '_token') continue;
+            if($key === '_method') continue;
+
+            $attribute = Attribute::query()->where('slug', $key)->first();
+            if($attribute){
+
+                $user = User::query()->findOrFail($id);
+
+                $value = Value::query()->where('attribute_id', $attribute->id)->where('user_id', $user->id)->first();
+                if(!$value) $value = new Value();
+
+                $value->attribute_id = $attribute->id;
+                $value->attribute_name_slug = $attribute->slug;
+
+                $value->user_id = $user->id;
+                $value->value = $valore;
+
+                if($valore) $value->save();
+            }
+        }
+
+        return redirect()->route('users.index');
     }
 }

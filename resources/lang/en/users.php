@@ -47,4 +47,7 @@
             'additional_info_title' => 'Additional Information',
             'additional_info_subtitle' => 'Additional user profile data',
         ],
+        '2fa' => [
+            'disable_message' => 'Disable two-factor authentication for this user',
+        ]
     ];

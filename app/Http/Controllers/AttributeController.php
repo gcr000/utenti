@@ -61,6 +61,10 @@ class AttributeController extends Controller
             'is_required' => 'nullable|boolean',
         ]);
 
+        if(Attribute::query()->where('slug', Str::slug($validated['name_italiano']))->exists())
+            return redirect()->back()->with('error', 'Attributo già esistente');
+
+
         $attribute = new Attribute();
         $attribute->name = $validated['name_italiano'];
         $attribute->slug = Str::slug($validated['name_italiano']);

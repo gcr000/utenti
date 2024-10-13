@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
 
     // ATTRIBUTI
     Route::resource('attributes', \App\Http\Controllers\AttributeController::class);
+    Route::post('custom_additional_update/{id}', [\App\Http\Controllers\UserController::class, 'additional_update'])->name('users.custom_additional_update');
+
 });
 
 require __DIR__.'/auth.php';

@@ -9,14 +9,15 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('users.custom_update', $user->id) }}" class="mt-6 space-y-6">
-        @method('patch')
+    <form method="post" action="{{ route('users.custom_additional_update', $user->id) }}" class="mt-6 space-y-6">
+        @method('POST')
         @csrf
 
         @foreach(\App\Models\Attribute::query()->get() as $attribute)
+            @php($value = \App\Models\Value::query()->where('user_id', $user->id)->where('attribute_id', $attribute->id)->first())
             <div>
                 <x-input-label for="{{ $attribute->slug }}" :value="__('attributes.' . $attribute->slug)" />
-                <input type="{{$attribute->type}}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                <input value="{{$value ? $value->value : ''}}" name="{{$attribute->slug}}" type="{{$attribute->type}}" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
             </div>
         @endforeach
 

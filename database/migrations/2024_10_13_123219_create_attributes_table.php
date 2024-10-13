@@ -25,6 +25,7 @@ return new class extends Migration
         Schema::create('values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attribute_id')->constrained()->onDelete('cascade');
+            $table->string('attribute_name_slug');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('value');
             $table->timestamps();
